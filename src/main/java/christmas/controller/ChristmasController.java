@@ -8,7 +8,9 @@ import christmas.view.OutputView;
 
 public class ChristmasController {
     public void run(){
+        OutputView.printStart();
         ReservationDate reservationDate = reservationDate();
+        OutputView.printDate(reservationDate);
         OrderMenu orderMenu = orderMenu();
         OutputView.printOrderMenu(orderMenu);
         OutputView.printTotalPrice(orderMenu);
