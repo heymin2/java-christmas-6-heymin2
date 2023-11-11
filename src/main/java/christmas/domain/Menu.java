@@ -28,6 +28,10 @@ public enum Menu {
         return category;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
     public static boolean contains(String menuName){
         for (Menu menu : Menu.values()) {
             if (menu.menu.equals(menuName)) {

@@ -10,6 +10,7 @@ public class ChristmasController {
         ReservationDate reservationDate = reservationDate();
         OrderMenu orderMenu = orderMenu();
         OutputView.printOrderMenu(orderMenu);
+        OutputView.printTotalPrice(orderMenu);
     }
 
     private ReservationDate reservationDate() {

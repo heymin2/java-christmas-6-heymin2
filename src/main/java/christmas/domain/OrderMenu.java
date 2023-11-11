@@ -103,6 +103,18 @@ public class OrderMenu {
         }
     }
 
+    public int calculateTotalPrice() {
+        int total = 0;
+        for (Map.Entry<String, Integer> entry : menu.entrySet()) {
+            String menuName = entry.getKey();
+            int quantity = entry.getValue();
+            Menu menu = Menu.fromMenuName(menuName);
+            total += menu.getPrice() * quantity;
+        }
+        return total;
+    }
+
+
     @Override
     public String toString() {
         return menu.entrySet().stream()
