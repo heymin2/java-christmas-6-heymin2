@@ -1,6 +1,9 @@
 package christmas.domain;
 
 public class ReservationDate {
+    private static final String INVALID_DATE_ERROR_MESSAGE = "[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.";
+    private static final int START_DAY = 1;
+    private static final int END_DAY = 31;
     private final int date;
 
     public ReservationDate(String date) {
@@ -10,28 +13,19 @@ public class ReservationDate {
     private int validate(String inputDate){
         validateNumber(inputDate);
         int date = Integer.parseInt(inputDate);
-        validateDateIsUnderOne(date);
-        validateDateIsAboveThirtyOne(date);
+        validateDateRange(date);
         return date;
     }
 
-    private void validateDateIsUnderOne(int date){
-        if(date < 1){
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
-        }
-    }
-
-    private void validateDateIsAboveThirtyOne(int date){
-        if(date > 31){
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+    private void validateDateRange(int date){
+        if(date < START_DAY || date > END_DAY){
+            throw new IllegalArgumentException(INVALID_DATE_ERROR_MESSAGE);
         }
     }
 
     private static void validateNumber(String inputDate){
-        for (char date : inputDate.toCharArray()) {
-            if (date < '0' || date > '9') {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
-            }
+        if (!inputDate.chars().allMatch(Character::isDigit)) {
+            throw new IllegalArgumentException(INVALID_DATE_ERROR_MESSAGE);
         }
     }
 
