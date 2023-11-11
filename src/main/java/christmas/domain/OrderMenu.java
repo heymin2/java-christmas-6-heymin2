@@ -2,6 +2,7 @@ package christmas.domain;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OrderMenu {
     private final Map<String, Integer> menu;
@@ -88,7 +89,7 @@ public class OrderMenu {
     }
 
     private void validateMenu(Map<String, Integer> menu){
-        for (String key : menu.keySet()) {
+       for (String key : menu.keySet()) {
             validateNotMenu(key);
         }
     }
@@ -100,5 +101,12 @@ public class OrderMenu {
         if(isOnlyLastCategory){
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
+    }
+
+    @Override
+    public String toString() {
+        return menu.entrySet().stream()
+                .map(entry -> entry.getKey() + " " + entry.getValue() + "개")
+                .collect(Collectors.joining("\n"));
     }
 }
