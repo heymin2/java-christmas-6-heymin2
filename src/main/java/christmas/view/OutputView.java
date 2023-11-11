@@ -42,4 +42,9 @@ public class OutputView {
         int totalDiscount = event.calculateTotalDiscount(reservationDate.getDate(), orderMenu);
         System.out.println(totalDiscount == 0 ? "없음" : "-" + String.format("%,d", totalDiscount) + "원");
     }
+
+    public static void printExpectedDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
+        System.out.println("\n<할인 후 예상 결제 금액>");
+        System.out.println(String.format("%,d", event.calculateExpectedDiscount(reservationDate.getDate(), orderMenu.getMenu())) + "원");
+    }
 }

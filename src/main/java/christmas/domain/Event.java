@@ -54,6 +54,20 @@ public class Event {
         return discounts.values().stream().mapToInt(Integer::intValue).sum();
     }
 
+    public int calculateDiscountPrice(int reservationDate, Map<String, Integer> menu){
+        if(applyEvent(orderMenu)){
+            return discountChristmas(reservationDate)
+                    + discountWeekday(reservationDate, menu)
+                    + discountWeekend(reservationDate, menu)
+                    + discountSpecial(reservationDate);
+        }
+       return 0;
+    }
+
+    public int calculateExpectedDiscount(int reservationDate, Map<String, Integer> menu){
+        return orderMenu.calculateTotalPrice() -calculateDiscountPrice(reservationDate, menu);
+    }
+
     public String getGiftMenu() {
         if(isGiftPrice()){
             return "샴페인 1개";
