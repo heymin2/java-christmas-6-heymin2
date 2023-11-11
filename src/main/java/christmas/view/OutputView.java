@@ -12,4 +12,9 @@ public class OutputView {
         System.out.println("\n<할인 전 총주문 금액>");
         System.out.println(orderMenu.calculateTotalPrice() +"원");
     }
+
+    public static void printGiftMenu(OrderMenu orderMenu){
+        System.out.println("\n<증정 메뉴>");
+        System.out.println(orderMenu.getGiftMenu());
+    }
 }
