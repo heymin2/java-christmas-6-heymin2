@@ -114,6 +114,10 @@ public class OrderMenu {
         return total;
     }
 
+    public Map<String, Integer> getMenu(){
+        return this.menu;
+    }
+
     @Override
     public String toString() {
         return menu.entrySet().stream()

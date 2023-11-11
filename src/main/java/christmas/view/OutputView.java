@@ -2,6 +2,9 @@ package christmas.view;
 
 import christmas.domain.Event;
 import christmas.domain.OrderMenu;
+import christmas.domain.ReservationDate;
+
+import java.util.Map;
 
 public class OutputView {
     public static void printOrderMenu(OrderMenu orderMenu){
@@ -17,5 +20,20 @@ public class OutputView {
     public static void printGiftMenu(Event event){
         System.out.println("\n<증정 메뉴>");
         System.out.println(event.getGiftMenu());
+    }
+
+    public static void printEvent(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
+        System.out.println("\n<혜택 내역>");
+        Map<String, Integer> discounts = event.totalDiscount(reservationDate.getDate(), orderMenu, orderMenu.getMenu());
+
+        long nonZeroDiscounts = discounts.values().stream().filter(value -> value != 0).count();
+
+        if (nonZeroDiscounts == 0) {
+            System.out.println("없음");
+        }
+
+        discounts.entrySet().stream()
+                .filter(entry -> entry.getValue() != 0)
+                .forEach(entry -> System.out.println(entry.getKey() + String.format("%,d", entry.getValue()) + "원"));
     }
 }

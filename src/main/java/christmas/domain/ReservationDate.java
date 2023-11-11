@@ -34,4 +34,8 @@ public class ReservationDate {
             }
         }
     }
+
+    public int getDate() {
+        return this.date;
+    }
 }
