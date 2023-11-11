@@ -1,5 +1,6 @@
 package christmas.view;
 
+import christmas.domain.Event;
 import christmas.domain.OrderMenu;
 
 public class OutputView {
@@ -13,8 +14,8 @@ public class OutputView {
         System.out.println(String.format("%,d", orderMenu.calculateTotalPrice())+"원");
     }
 
-    public static void printGiftMenu(OrderMenu orderMenu){
+    public static void printGiftMenu(Event event){
         System.out.println("\n<증정 메뉴>");
-        System.out.println(orderMenu.getGiftMenu());
+        System.out.println(event.getGiftMenu());
     }
 }
