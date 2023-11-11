@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Event {
     private static final int DISCOUNT_MONEY = 1000;
-    private static final int INCREASE_MONEY = 1000;
+    private static final int INCREASE_MONEY = 100;
     private static final int TOTAL_MONEY = 120000;
     private static final int START_DAY = 1;
     private static final int END_DAY = 25;
@@ -47,6 +47,11 @@ public class Event {
             return discounts;
         }
        return discounts;
+    }
+
+    public int calculateTotalDiscount(int reservationDate, OrderMenu orderMenu){
+        Map<String, Integer> discounts = totalDiscount(reservationDate, orderMenu, orderMenu.getMenu());
+        return discounts.values().stream().mapToInt(Integer::intValue).sum();
     }
 
     public String getGiftMenu() {

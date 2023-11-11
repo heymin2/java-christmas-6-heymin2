@@ -36,4 +36,10 @@ public class OutputView {
                 .filter(entry -> entry.getValue() != 0)
                 .forEach(entry -> System.out.println(entry.getKey() + String.format("%,d", entry.getValue()) + "원"));
     }
+
+    public static void printTotalDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
+        System.out.println("\n<총혜택 금액>");
+        int totalDiscount = event.calculateTotalDiscount(reservationDate.getDate(), orderMenu);
+        System.out.println(totalDiscount == 0 ? "없음" : "-" + String.format("%,d", totalDiscount) + "원");
+    }
 }
