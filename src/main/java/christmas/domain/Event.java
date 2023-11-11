@@ -54,14 +54,14 @@ public class Event {
         return discounts.values().stream().mapToInt(Integer::intValue).sum();
     }
 
-    public int calculateDiscountPrice(int reservationDate, Map<String, Integer> menu){
+    private int calculateDiscountPrice(int reservationDate, Map<String, Integer> menu){
         if(applyEvent(orderMenu)){
             return discountChristmas(reservationDate)
                     + discountWeekday(reservationDate, menu)
                     + discountWeekend(reservationDate, menu)
                     + discountSpecial(reservationDate);
         }
-       return 0;
+       return ZERO;
     }
 
     public int calculateExpectedDiscount(int reservationDate, Map<String, Integer> menu){

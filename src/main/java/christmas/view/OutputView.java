@@ -47,4 +47,13 @@ public class OutputView {
         System.out.println("\n<할인 후 예상 결제 금액>");
         System.out.println(String.format("%,d", event.calculateExpectedDiscount(reservationDate.getDate(), orderMenu.getMenu())) + "원");
     }
+
+    public static void printEventBadge(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
+        System.out.println("\n<12월 이벤트 배지>");
+        int totalDiscount = event.calculateTotalDiscount(reservationDate.getDate(), orderMenu);
+        String badge = totalDiscount >= 20000 ? "산타" :
+                totalDiscount >= 10000 ? "트리" :
+                        totalDiscount >= 5000 ? "별" : "없음";
+        System.out.println(badge);
+    }
 }
