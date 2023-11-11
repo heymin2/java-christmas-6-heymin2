@@ -39,7 +39,22 @@ public class OrderMenu {
     }
 
     private String[] splitDash(String menuEntry){
-        return menuEntry.split("-");
+        validateContainsDash(menuEntry);
+        String[] splitEntry = menuEntry.split("-");
+        validateContents(splitEntry);
+        return splitEntry;
+    }
+
+    private void validateContainsDash(String menuEntry) {
+        if (!menuEntry.contains("-")) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        }
+    }
+
+    private void validateContents(String[] splitEntry) {
+        if (splitEntry.length != 2 || splitEntry[0].isEmpty() || splitEntry[1].isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        }
     }
 
     private void validateNumber(String number){
