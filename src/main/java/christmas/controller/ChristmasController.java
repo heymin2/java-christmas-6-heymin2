@@ -10,8 +10,8 @@ public class ChristmasController {
     public void run(){
         OutputView.printStart();
         ReservationDate reservationDate = reservationDate();
-        OutputView.printDate(reservationDate);
         OrderMenu orderMenu = orderMenu();
+        OutputView.printDate(reservationDate);
         OutputView.printOrderMenu(orderMenu);
         OutputView.printTotalPrice(orderMenu);
         Event event = new Event(reservationDate, orderMenu);
