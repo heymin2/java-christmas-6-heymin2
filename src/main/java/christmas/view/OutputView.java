@@ -48,7 +48,19 @@ public class OutputView {
     public static void printTotalDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
         System.out.println("\n<총혜택 금액>");
         int totalDiscount = event.calculateTotalDiscount(reservationDate.getDate(), orderMenu);
-        System.out.println(totalDiscount == 0 ? "없음" : "-" + String.format("%,d", totalDiscount) + "원");
+        printDiscount(totalDiscount);
+    }
+
+    private static void printDiscount(int totalDiscount) {
+        String discountMessage = getDiscountMessage(totalDiscount);
+        System.out.println(discountMessage);
+    }
+
+    private static String getDiscountMessage(int totalDiscount) {
+        if (totalDiscount == 0) {
+            return "없음";
+        }
+        return "-" + String.format("%,d", totalDiscount) + "원";
     }
 
     public static void printExpectedDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
@@ -59,9 +71,37 @@ public class OutputView {
     public static void printEventBadge(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
         System.out.println("\n<12월 이벤트 배지>");
         int totalDiscount = event.calculateTotalDiscount(reservationDate.getDate(), orderMenu);
-        String badge = totalDiscount >= 20000 ? "산타" :
-                totalDiscount >= 10000 ? "트리" :
-                        totalDiscount >= 5000 ? "별" : "없음";
+        printBadge(totalDiscount);
+    }
+
+    private static void printBadge(int totalDiscount) {
+        String badge = getBadge(totalDiscount);
         System.out.println(badge);
     }
+
+    private static String getBadge(int totalDiscount) {
+        return getSantaBadge(totalDiscount);
+    }
+
+    private static String getSantaBadge(int totalDiscount) {
+        if (totalDiscount >= 20000) {
+            return "산타";
+        }
+        return getTreeBadge(totalDiscount);
+    }
+
+    private static String getTreeBadge(int totalDiscount) {
+        if (totalDiscount >= 10000) {
+            return "트리";
+        }
+        return getStarBadge(totalDiscount);
+    }
+
+    private static String getStarBadge(int totalDiscount) {
+        if (totalDiscount >= 5000) {
+            return "별";
+        }
+        return "없음";
+    }
+
 }
