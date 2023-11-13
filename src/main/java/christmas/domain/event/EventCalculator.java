@@ -1,15 +1,18 @@
-package christmas.domain;
+package christmas.domain.event;
 
 import christmas.constant.ChristmasConfig;
+import christmas.domain.DiscountEvent;
+import christmas.domain.order.OrderMenu;
+import christmas.domain.ReservationDate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Event {
+public class EventCalculator {
     private final ReservationDate reservationDate;
     private final OrderMenu orderMenu;
 
-    public Event(ReservationDate reservationDate, OrderMenu orderMenu) {
+    public EventCalculator(ReservationDate reservationDate, OrderMenu orderMenu) {
         this.reservationDate = reservationDate;
         this.orderMenu = orderMenu;
     }

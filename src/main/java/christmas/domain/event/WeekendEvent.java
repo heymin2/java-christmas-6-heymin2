@@ -1,6 +1,8 @@
-package christmas.domain;
+package christmas.domain.event;
 
 import christmas.constant.ChristmasConfig;
+import christmas.domain.Menu;
+import christmas.domain.order.OrderItem;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,6 +1,7 @@
-package christmas.domain;
+package christmas.domain.event;
 
 import christmas.constant.ChristmasConfig;
+import christmas.domain.order.OrderMenu;
 
 public class GiftEvent {
     public static final String GIFT = "샴페인 1개";
