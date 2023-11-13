@@ -1,7 +1,8 @@
 package christmas.domain;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Event {
     private static final int DISCOUNT_MONEY = 1000;
@@ -36,36 +37,36 @@ public class Event {
         return orderMenu.calculateTotalPrice() > minPrice;
     }
 
-    public Map<String, Integer> totalDiscount(int reservationDate, OrderMenu orderMenu, Map<String, Integer> menu){
-        Map<String, Integer> discounts = new LinkedHashMap<>();
+    public List<DiscountEvent> totalDiscount(int reservationDate, OrderMenu orderMenu){
+        List<DiscountEvent> discounts = new ArrayList<>();
         if(applyEvent(orderMenu)){
-            discounts.put("크리스마스 디데이 할인: -", discountChristmas(reservationDate));
-            discounts.put("평일 할인: -", discountWeekday(reservationDate, menu));
-            discounts.put("주말 할인: -", discountWeekend(reservationDate, menu));
-            discounts.put("특별 할인: -", discountSpecial(reservationDate));
-            discounts.put("증정 이벤트: -", giftEvent());
+            discounts.add(new DiscountEvent("크리스마스 디데이 할인: -", discountChristmas(reservationDate)));
+            discounts.add(new DiscountEvent("평일 할인: -", discountWeekday(reservationDate, orderMenu.getOrder())));
+            discounts.add(new DiscountEvent("주말 할인: -", discountWeekend(reservationDate, orderMenu.getOrder())));
+            discounts.add(new DiscountEvent("특별 할인: -", discountSpecial(reservationDate)));
+            discounts.add(new DiscountEvent("증정 이벤트: -", giftEvent()));
             return discounts;
         }
-       return discounts;
+        return discounts;
     }
 
     public int calculateTotalDiscount(int reservationDate, OrderMenu orderMenu){
-        Map<String, Integer> discounts = totalDiscount(reservationDate, orderMenu, orderMenu.getMenu());
-        return discounts.values().stream().mapToInt(Integer::intValue).sum();
+        List<DiscountEvent> discounts = totalDiscount(reservationDate, orderMenu);
+        return discounts.stream().mapToInt(DiscountEvent::amount).sum();
     }
 
-    private int calculateDiscountPrice(int reservationDate, Map<String, Integer> menu){
+    private int calculateDiscountPrice(int reservationDate, OrderMenu orderMenu){
         if(applyEvent(orderMenu)){
             return discountChristmas(reservationDate)
-                    + discountWeekday(reservationDate, menu)
-                    + discountWeekend(reservationDate, menu)
+                    + discountWeekday(reservationDate, orderMenu.getOrder())
+                    + discountWeekend(reservationDate, orderMenu.getOrder())
                     + discountSpecial(reservationDate);
         }
-       return ZERO;
+        return ZERO;
     }
 
-    public int calculateExpectedDiscount(int reservationDate, Map<String, Integer> menu){
-        return orderMenu.calculateTotalPrice() -calculateDiscountPrice(reservationDate, menu);
+    public int calculateExpectedDiscount(int reservationDate, OrderMenu orderMenu){
+        return orderMenu.calculateTotalPrice() - calculateDiscountPrice(reservationDate, orderMenu);
     }
 
     public String getGiftMenu() {
@@ -90,11 +91,12 @@ public class Event {
         return reservationDate >= START_DAY && reservationDate <= END_DAY;
     }
 
-    private int discountWeekday(int reservationDate, Map<String, Integer> orderMenu) {
+    private int discountWeekday(int reservationDate, List<OrderItem> orderItems) {
         if (isWeekday(reservationDate)) {
-            int dessertCount = orderMenu.entrySet().stream()
-                    .filter(entry -> Menu.contains(entry.getKey()) && Menu.fromMenuName(entry.getKey()).getCategory() == DESSERT_CATEGORY)
-                    .mapToInt(Map.Entry::getValue)
+            int dessertCount = orderItems.stream()
+                    .filter(orderItem -> Menu.contains(orderItem.menuName())
+                            && Objects.requireNonNull(Menu.fromMenuName(orderItem.menuName())).getCategory() == DESSERT_CATEGORY)
+                    .mapToInt(OrderItem::quantity)
                     .sum();
             return DISCOUNT_AMOUNT * dessertCount;
         }
@@ -105,11 +107,12 @@ public class Event {
         return reservationDate % WEEK >= SUNDAY || reservationDate % WEEK == THURSDAY;
     }
 
-    private int discountWeekend(int reservationDate, Map<String, Integer> orderMenu) {
+    private int discountWeekend(int reservationDate, List<OrderItem> orderItems) {
         if (isWeekend(reservationDate)) {
-            int mainCount = orderMenu.entrySet().stream()
-                    .filter(entry -> Menu.contains(entry.getKey()) && Menu.fromMenuName(entry.getKey()).getCategory() == MAIN_CATEGORY)
-                    .mapToInt(Map.Entry::getValue)
+            int mainCount = orderItems.stream()
+                    .filter(orderItem -> Menu.contains(orderItem.menuName())
+                            && Objects.requireNonNull(Menu.fromMenuName(orderItem.menuName())).getCategory() == MAIN_CATEGORY)
+                    .mapToInt(OrderItem::quantity)
                     .sum();
             return DISCOUNT_AMOUNT * mainCount;
         }

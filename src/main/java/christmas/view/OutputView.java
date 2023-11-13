@@ -1,11 +1,12 @@
 package christmas.view;
 
 import christmas.constant.ViewMessage;
+import christmas.domain.DiscountEvent;
 import christmas.domain.Event;
 import christmas.domain.OrderMenu;
 import christmas.domain.ReservationDate;
 
-import java.util.Map;
+import java.util.List;
 
 public class OutputView {
     private static final String NO = "없음";
@@ -42,17 +43,15 @@ public class OutputView {
 
     public static void printEvent(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
         System.out.println(ViewMessage.BENEFIT_DETAIL);
-        Map<String, Integer> discounts = event.totalDiscount(reservationDate.getDate(), orderMenu, orderMenu.getMenu());
+        List<DiscountEvent> discounts = event.totalDiscount(reservationDate.getDate(), orderMenu);
 
-        long nonZeroDiscounts = discounts.values().stream().filter(value -> value != 0).count();
-
-        if (nonZeroDiscounts == NO_DISCOUNT) {
+        if (discounts.isEmpty()) {
             System.out.println(NO);
         }
 
-        discounts.entrySet().stream()
-                .filter(entry -> entry.getValue() != 0)
-                .forEach(entry -> System.out.println(entry.getKey() + String.format("%,d원", entry.getValue())));
+        discounts.stream()
+                .filter(discountEvent -> discountEvent.amount() != 0)
+                .forEach(discountEvent -> System.out.println(discountEvent.name() + String.format("%,d원", discountEvent.amount())));
     }
 
     public static void printTotalDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
@@ -75,7 +74,7 @@ public class OutputView {
 
     public static void printExpectedDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
         System.out.println(ViewMessage.TOTAL_COST_AFTER);
-        System.out.printf("%,d원%n", event.calculateExpectedDiscount(reservationDate.getDate(), orderMenu.getMenu()));
+        System.out.printf("%,d원%n", event.calculateExpectedDiscount(reservationDate.getDate(), orderMenu));
     }
 
     public static void printEventBadge(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
