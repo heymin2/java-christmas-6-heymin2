@@ -1,8 +1,8 @@
 package christmas.controller;
 
-import christmas.domain.Event;
+import christmas.domain.event.EventCalculator;
 import christmas.domain.ReservationDate;
-import christmas.domain.OrderMenu;
+import christmas.domain.order.OrderMenu;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
@@ -14,12 +14,12 @@ public class ChristmasController {
         OutputView.printDate(reservationDate);
         OutputView.printOrderMenu(orderMenu);
         OutputView.printTotalPrice(orderMenu);
-        Event event = new Event(reservationDate, orderMenu);
+        EventCalculator eventCalculator = new EventCalculator(reservationDate, orderMenu);
         OutputView.printGiftMenu(orderMenu);
-        OutputView.printEvent(event);
-        OutputView.printTotalDiscount(event);
-        OutputView.printExpectedDiscount(event);
-        OutputView.printEventBadge(event);
+        OutputView.printEvent(eventCalculator);
+        OutputView.printTotalDiscount(eventCalculator);
+        OutputView.printExpectedDiscount(eventCalculator);
+        OutputView.printEventBadge(eventCalculator);
     }
 
     private ReservationDate reservationDate() {
