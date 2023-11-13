@@ -44,7 +44,7 @@ public class OutputView {
 
         discounts.stream()
                 .filter(discountEvent -> discountEvent.amount() != 0)
-                .forEach(discountEvent -> System.out.println(discountEvent.name() + String.format("%,d원", discountEvent.amount())));
+                .forEach(discountEvent -> System.out.println(discountEvent.name() + String.format("-%,d원", discountEvent.amount())));
     }
 
     public static void printTotalDiscount(EventCalculator eventCalculator){
@@ -62,7 +62,7 @@ public class OutputView {
         if (totalDiscount == OutputConfig.NO_DISCOUNT) {
             return OutputConfig.NO;
         }
-        return "-" + String.format("%,d원", totalDiscount);
+        return String.format("-%,d원", totalDiscount);
     }
 
     public static void printExpectedDiscount(EventCalculator eventCalculator){

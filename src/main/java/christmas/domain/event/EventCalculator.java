@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventCalculator {
+    private static final String CHRISTMAS_DISCOUNT = "크리스마스 디데이 할인: ";
+    private static final String WEEKDAY_DISCOUNT = "평일 할인: ";
+    private static final String WEEKEND_DISCOUNT = "주말 할인: ";
+    private static final String SPECIAL_DISCOUNT = "특별 할인: ";
+    private static final String GIFT_EVENT = "증정 이벤트: ";
+    
     private final ReservationDate reservationDate;
     private final OrderMenu orderMenu;
 
@@ -30,11 +36,11 @@ public class EventCalculator {
     }
 
     private void addDiscounts(List<DiscountEvent> discounts){
-        discounts.add(new DiscountEvent("크리스마스 디데이 할인: -", new ChristmasEvent(reservationDate.getDate()).calculateDiscount()));
-        discounts.add(new DiscountEvent("평일 할인: -", new WeekdayEvent(reservationDate.getDate(), orderMenu.getOrder()).calculateDiscount()));
-        discounts.add(new DiscountEvent("주말 할인: -", new WeekendEvent(reservationDate.getDate(), orderMenu.getOrder()).calculateDiscount()));
-        discounts.add(new DiscountEvent("특별 할인: -", new SpecialEvent(reservationDate.getDate()).calculateDiscount()));
-        discounts.add(new DiscountEvent("증정 이벤트: -", new GiftEvent(orderMenu).calculateGiftPrice()));
+        discounts.add(new DiscountEvent(CHRISTMAS_DISCOUNT, new ChristmasEvent(reservationDate.getDate()).calculateDiscount()));
+        discounts.add(new DiscountEvent(WEEKDAY_DISCOUNT, new WeekdayEvent(reservationDate.getDate(), orderMenu.getOrder()).calculateDiscount()));
+        discounts.add(new DiscountEvent(WEEKEND_DISCOUNT, new WeekendEvent(reservationDate.getDate(), orderMenu.getOrder()).calculateDiscount()));
+        discounts.add(new DiscountEvent(SPECIAL_DISCOUNT, new SpecialEvent(reservationDate.getDate()).calculateDiscount()));
+        discounts.add(new DiscountEvent(GIFT_EVENT, new GiftEvent(orderMenu).calculateGiftPrice()));
     }
 
     public int calculateTotalDiscount(){
