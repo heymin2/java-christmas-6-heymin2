@@ -1,5 +1,6 @@
 package christmas.view;
 
+import christmas.constant.ViewMessage;
 import christmas.domain.Event;
 import christmas.domain.OrderMenu;
 import christmas.domain.ReservationDate;
@@ -7,46 +8,55 @@ import christmas.domain.ReservationDate;
 import java.util.Map;
 
 public class OutputView {
+    private static final String NO = "없음";
+    private static final String SANTA_BADGE = "산타";
+    private static final String TREE_BADGE = "트리";
+    private static final String STAR_BADGE = "별";
+    private static final int NO_DISCOUNT = 0;
+    private static final int SANTA_BADGE_DISCOUNT = 20000;
+    private static final int TREE_BADGE_DISCOUNT = 10000;
+    private static final int STAR_BADGE_DISCOUNT = 5000;
+
+
     public static void printStart(){
-        System.out.println("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.");
+        System.out.println(ViewMessage.START_MESSAGE);
     }
 
     public static void printDate(ReservationDate reservationDate){
-        System.out.printf("12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n", reservationDate.getDate());
+        System.out.printf(String.valueOf(ViewMessage.PREVIEW), reservationDate.getDate());
     }
 
     public static void printOrderMenu(OrderMenu orderMenu){
-        System.out.println("\n<주문 메뉴>");
-        System.out.println(orderMenu);
+        System.out.println(String.join("\n", ViewMessage.ORDER_MENU.getMessage(), orderMenu.toString()));
     }
 
     public static void printTotalPrice(OrderMenu orderMenu){
-        System.out.println("\n<할인 전 총주문 금액>");
-        System.out.println(String.format("%,d", orderMenu.calculateTotalPrice())+"원");
+        System.out.println(ViewMessage.TOTAL_COST_BEFORE);
+        System.out.printf("%,d원%n", orderMenu.calculateTotalPrice());
     }
 
     public static void printGiftMenu(Event event){
-        System.out.println("\n<증정 메뉴>");
+        System.out.println(ViewMessage.GIFT_MENU);
         System.out.println(event.getGiftMenu());
     }
 
     public static void printEvent(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
-        System.out.println("\n<혜택 내역>");
+        System.out.println(ViewMessage.BENEFIT_DETAIL);
         Map<String, Integer> discounts = event.totalDiscount(reservationDate.getDate(), orderMenu, orderMenu.getMenu());
 
         long nonZeroDiscounts = discounts.values().stream().filter(value -> value != 0).count();
 
-        if (nonZeroDiscounts == 0) {
-            System.out.println("없음");
+        if (nonZeroDiscounts == NO_DISCOUNT) {
+            System.out.println(NO);
         }
 
         discounts.entrySet().stream()
                 .filter(entry -> entry.getValue() != 0)
-                .forEach(entry -> System.out.println(entry.getKey() + String.format("%,d", entry.getValue()) + "원"));
+                .forEach(entry -> System.out.println(entry.getKey() + String.format("%,d원", entry.getValue())));
     }
 
     public static void printTotalDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
-        System.out.println("\n<총혜택 금액>");
+        System.out.println(ViewMessage.TOTAL_BENEFIT);
         int totalDiscount = event.calculateTotalDiscount(reservationDate.getDate(), orderMenu);
         printDiscount(totalDiscount);
     }
@@ -57,19 +67,19 @@ public class OutputView {
     }
 
     private static String getDiscountMessage(int totalDiscount) {
-        if (totalDiscount == 0) {
-            return "없음";
+        if (totalDiscount == NO_DISCOUNT) {
+            return NO;
         }
-        return "-" + String.format("%,d", totalDiscount) + "원";
+        return "-" + String.format("%,d원", totalDiscount);
     }
 
     public static void printExpectedDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
-        System.out.println("\n<할인 후 예상 결제 금액>");
-        System.out.println(String.format("%,d", event.calculateExpectedDiscount(reservationDate.getDate(), orderMenu.getMenu())) + "원");
+        System.out.println(ViewMessage.TOTAL_COST_AFTER);
+        System.out.printf("%,d원%n", event.calculateExpectedDiscount(reservationDate.getDate(), orderMenu.getMenu()));
     }
 
     public static void printEventBadge(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
-        System.out.println("\n<12월 이벤트 배지>");
+        System.out.println(ViewMessage.EVENT_BADGE);
         int totalDiscount = event.calculateTotalDiscount(reservationDate.getDate(), orderMenu);
         printBadge(totalDiscount);
     }
@@ -84,24 +94,24 @@ public class OutputView {
     }
 
     private static String getSantaBadge(int totalDiscount) {
-        if (totalDiscount >= 20000) {
-            return "산타";
+        if (totalDiscount >= SANTA_BADGE_DISCOUNT) {
+            return SANTA_BADGE;
         }
         return getTreeBadge(totalDiscount);
     }
 
     private static String getTreeBadge(int totalDiscount) {
-        if (totalDiscount >= 10000) {
-            return "트리";
+        if (totalDiscount >= TREE_BADGE_DISCOUNT) {
+            return TREE_BADGE;
         }
         return getStarBadge(totalDiscount);
     }
 
     private static String getStarBadge(int totalDiscount) {
-        if (totalDiscount >= 5000) {
-            return "별";
+        if (totalDiscount >= STAR_BADGE_DISCOUNT) {
+            return STAR_BADGE;
         }
-        return "없음";
+        return NO;
     }
 
 }
