@@ -15,11 +15,11 @@ public class ChristmasController {
         OutputView.printOrderMenu(orderMenu);
         OutputView.printTotalPrice(orderMenu);
         Event event = new Event(reservationDate, orderMenu);
-        OutputView.printGiftMenu(event);
-        OutputView.printEvent(event, reservationDate, orderMenu);
-        OutputView.printTotalDiscount(event, reservationDate, orderMenu);
-        OutputView.printExpectedDiscount(event, reservationDate, orderMenu);
-        OutputView.printEventBadge(event, reservationDate, orderMenu);
+        OutputView.printGiftMenu(orderMenu);
+        OutputView.printEvent(event);
+        OutputView.printTotalDiscount(event);
+        OutputView.printExpectedDiscount(event);
+        OutputView.printEventBadge(event);
     }
 
     private ReservationDate reservationDate() {

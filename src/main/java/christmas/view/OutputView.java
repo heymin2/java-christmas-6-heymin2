@@ -1,10 +1,7 @@
 package christmas.view;
 
 import christmas.constant.ViewMessage;
-import christmas.domain.DiscountEvent;
-import christmas.domain.Event;
-import christmas.domain.OrderMenu;
-import christmas.domain.ReservationDate;
+import christmas.domain.*;
 
 import java.util.List;
 
@@ -36,14 +33,15 @@ public class OutputView {
         System.out.printf("%,d원%n", orderMenu.calculateTotalPrice());
     }
 
-    public static void printGiftMenu(Event event){
+    public static void printGiftMenu(OrderMenu orderMenu){
         System.out.println(ViewMessage.GIFT_MENU);
-        System.out.println(event.getGiftMenu());
+        GiftEvent giftEvent = new GiftEvent(orderMenu);
+        System.out.println(giftEvent.getGiftMenu());
     }
 
-    public static void printEvent(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
+    public static void printEvent(Event event){
         System.out.println(ViewMessage.BENEFIT_DETAIL);
-        List<DiscountEvent> discounts = event.totalDiscount(reservationDate.getDate(), orderMenu);
+        List<DiscountEvent> discounts = event.totalDiscount();
 
         if (discounts.isEmpty()) {
             System.out.println(NO);
@@ -54,9 +52,9 @@ public class OutputView {
                 .forEach(discountEvent -> System.out.println(discountEvent.name() + String.format("%,d원", discountEvent.amount())));
     }
 
-    public static void printTotalDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
+    public static void printTotalDiscount(Event event){
         System.out.println(ViewMessage.TOTAL_BENEFIT);
-        int totalDiscount = event.calculateTotalDiscount(reservationDate.getDate(), orderMenu);
+        int totalDiscount = event.calculateTotalDiscount();
         printDiscount(totalDiscount);
     }
 
@@ -72,14 +70,14 @@ public class OutputView {
         return "-" + String.format("%,d원", totalDiscount);
     }
 
-    public static void printExpectedDiscount(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
+    public static void printExpectedDiscount(Event event){
         System.out.println(ViewMessage.TOTAL_COST_AFTER);
-        System.out.printf("%,d원%n", event.calculateExpectedDiscount(reservationDate.getDate(), orderMenu));
+        System.out.printf("%,d원%n", event.calculateExpectedDiscount());
     }
 
-    public static void printEventBadge(Event event, ReservationDate reservationDate, OrderMenu orderMenu){
+    public static void printEventBadge(Event event){
         System.out.println(ViewMessage.EVENT_BADGE);
-        int totalDiscount = event.calculateTotalDiscount(reservationDate.getDate(), orderMenu);
+        int totalDiscount = event.calculateTotalDiscount();
         printBadge(totalDiscount);
     }
 
