@@ -2,6 +2,9 @@ package christmas.view;
 
 import christmas.constant.ViewMessage;
 import christmas.domain.*;
+import christmas.domain.event.EventCalculator;
+import christmas.domain.event.GiftEvent;
+import christmas.domain.order.OrderMenu;
 
 import java.util.List;
 
@@ -39,9 +42,9 @@ public class OutputView {
         System.out.println(giftEvent.getGiftMenu());
     }
 
-    public static void printEvent(Event event){
+    public static void printEvent(EventCalculator eventCalculator){
         System.out.println(ViewMessage.BENEFIT_DETAIL);
-        List<DiscountEvent> discounts = event.totalDiscount();
+        List<DiscountEvent> discounts = eventCalculator.totalDiscount();
 
         if (discounts.isEmpty()) {
             System.out.println(NO);
@@ -52,9 +55,9 @@ public class OutputView {
                 .forEach(discountEvent -> System.out.println(discountEvent.name() + String.format("%,d원", discountEvent.amount())));
     }
 
-    public static void printTotalDiscount(Event event){
+    public static void printTotalDiscount(EventCalculator eventCalculator){
         System.out.println(ViewMessage.TOTAL_BENEFIT);
-        int totalDiscount = event.calculateTotalDiscount();
+        int totalDiscount = eventCalculator.calculateTotalDiscount();
         printDiscount(totalDiscount);
     }
 
@@ -70,14 +73,14 @@ public class OutputView {
         return "-" + String.format("%,d원", totalDiscount);
     }
 
-    public static void printExpectedDiscount(Event event){
+    public static void printExpectedDiscount(EventCalculator eventCalculator){
         System.out.println(ViewMessage.TOTAL_COST_AFTER);
-        System.out.printf("%,d원%n", event.calculateExpectedDiscount());
+        System.out.printf("%,d원%n", eventCalculator.calculateExpectedDiscount());
     }
 
-    public static void printEventBadge(Event event){
+    public static void printEventBadge(EventCalculator eventCalculator){
         System.out.println(ViewMessage.EVENT_BADGE);
-        int totalDiscount = event.calculateTotalDiscount();
+        int totalDiscount = eventCalculator.calculateTotalDiscount();
         printBadge(totalDiscount);
     }
 

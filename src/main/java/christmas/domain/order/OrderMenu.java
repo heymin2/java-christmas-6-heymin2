@@ -1,4 +1,7 @@
-package christmas.domain;
+package christmas.domain.order;
+
+import christmas.constant.ErrorMessage;
+import christmas.domain.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +9,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class OrderMenu {
-    private static final String INVALID_ORDER_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
-
     private final List<OrderItem> order;
 
     public OrderMenu(String menuInput) {
@@ -33,14 +34,14 @@ public class OrderMenu {
 
     private String[] splitDash(String menuEntry){
         if (!menuEntry.contains("-")) {
-            throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_ERROR_MESSAGE.toString());
         }
         return menuEntry.split("-");
     }
 
     private void validateNumber(String number){
         if (!number.chars().allMatch(Character::isDigit)) {
-            throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_ERROR_MESSAGE.toString());
         }
     }
 

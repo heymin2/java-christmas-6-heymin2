@@ -1,11 +1,12 @@
-package christmas.domain;
+package christmas.domain.order;
+
+import christmas.constant.ErrorMessage;
+import christmas.domain.Menu;
 
 import java.util.List;
 import java.util.Objects;
 
 public class OrderMenuValidator {
-    private static final String INVALID_ORDER_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
-
     private static final int MAX_MENU = 20;
     private static final int DRINK_CATEGORY = 4;
 
@@ -22,7 +23,7 @@ public class OrderMenuValidator {
 
     private static void validateTotalQuantity(int totalQuantity){
         if(totalQuantity > MAX_MENU){
-            throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_ERROR_MESSAGE.toString());
         }
     }
 
@@ -34,7 +35,7 @@ public class OrderMenuValidator {
 
     private static void validateMenuExists(String menuName){
         if(!Menu.contains(menuName)){
-            throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_ERROR_MESSAGE.toString());
         }
     }
 
@@ -43,7 +44,7 @@ public class OrderMenuValidator {
                 .map(orderItem -> Menu.fromMenuName(orderItem.menuName())).filter(Objects::nonNull)
                 .allMatch(m -> m.getCategory() == DRINK_CATEGORY);
         if(isOnlyLastCategory){
-            throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_ERROR_MESSAGE.toString());
         }
     }
 
@@ -54,7 +55,7 @@ public class OrderMenuValidator {
                 .count();
 
         if (distinctCount != order.size()) {
-            throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_ERROR_MESSAGE.toString());
         }
     }
 
@@ -63,7 +64,7 @@ public class OrderMenuValidator {
                 .anyMatch(orderItem -> orderItem.quantity() < 1);
 
         if (hasInvalidQuantity) {
-            throw new IllegalArgumentException(INVALID_ORDER_ERROR_MESSAGE);
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_ERROR_MESSAGE.toString());
         }
     }
 }
