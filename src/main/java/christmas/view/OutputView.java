@@ -1,7 +1,9 @@
 package christmas.view;
 
+import christmas.constant.OutputConfig;
 import christmas.constant.ViewMessage;
-import christmas.domain.*;
+import christmas.domain.DiscountEvent;
+import christmas.domain.ReservationDate;
 import christmas.domain.event.EventCalculator;
 import christmas.domain.event.GiftEvent;
 import christmas.domain.order.OrderMenu;
@@ -9,16 +11,6 @@ import christmas.domain.order.OrderMenu;
 import java.util.List;
 
 public class OutputView {
-    private static final String NO = "없음";
-    private static final String SANTA_BADGE = "산타";
-    private static final String TREE_BADGE = "트리";
-    private static final String STAR_BADGE = "별";
-    private static final int NO_DISCOUNT = 0;
-    private static final int SANTA_BADGE_DISCOUNT = 20000;
-    private static final int TREE_BADGE_DISCOUNT = 10000;
-    private static final int STAR_BADGE_DISCOUNT = 5000;
-
-
     public static void printStart(){
         System.out.println(ViewMessage.START_MESSAGE);
     }
@@ -47,7 +39,7 @@ public class OutputView {
         List<DiscountEvent> discounts = eventCalculator.totalDiscount();
 
         if (discounts.isEmpty()) {
-            System.out.println(NO);
+            System.out.println(OutputConfig.NO);
         }
 
         discounts.stream()
@@ -67,8 +59,8 @@ public class OutputView {
     }
 
     private static String getDiscountMessage(int totalDiscount) {
-        if (totalDiscount == NO_DISCOUNT) {
-            return NO;
+        if (totalDiscount == OutputConfig.NO_DISCOUNT) {
+            return OutputConfig.NO;
         }
         return "-" + String.format("%,d원", totalDiscount);
     }
@@ -94,24 +86,24 @@ public class OutputView {
     }
 
     private static String getSantaBadge(int totalDiscount) {
-        if (totalDiscount >= SANTA_BADGE_DISCOUNT) {
-            return SANTA_BADGE;
+        if (totalDiscount >= OutputConfig.SANTA_BADGE_DISCOUNT) {
+            return OutputConfig.SANTA_BADGE;
         }
         return getTreeBadge(totalDiscount);
     }
 
     private static String getTreeBadge(int totalDiscount) {
-        if (totalDiscount >= TREE_BADGE_DISCOUNT) {
-            return TREE_BADGE;
+        if (totalDiscount >= OutputConfig.TREE_BADGE_DISCOUNT) {
+            return OutputConfig.TREE_BADGE;
         }
         return getStarBadge(totalDiscount);
     }
 
     private static String getStarBadge(int totalDiscount) {
-        if (totalDiscount >= STAR_BADGE_DISCOUNT) {
-            return STAR_BADGE;
+        if (totalDiscount >= OutputConfig.STAR_BADGE_DISCOUNT) {
+            return OutputConfig.STAR_BADGE;
         }
-        return NO;
+        return OutputConfig.NO;
     }
 
 }
