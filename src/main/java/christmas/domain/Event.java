@@ -40,14 +40,17 @@ public class Event {
     public List<DiscountEvent> totalDiscount(int reservationDate, OrderMenu orderMenu){
         List<DiscountEvent> discounts = new ArrayList<>();
         if(applyEvent(orderMenu)){
-            discounts.add(new DiscountEvent("크리스마스 디데이 할인: -", discountChristmas(reservationDate)));
-            discounts.add(new DiscountEvent("평일 할인: -", discountWeekday(reservationDate, orderMenu.getOrder())));
-            discounts.add(new DiscountEvent("주말 할인: -", discountWeekend(reservationDate, orderMenu.getOrder())));
-            discounts.add(new DiscountEvent("특별 할인: -", discountSpecial(reservationDate)));
-            discounts.add(new DiscountEvent("증정 이벤트: -", giftEvent()));
-            return discounts;
+            addDiscounts(discounts, reservationDate, orderMenu);
         }
         return discounts;
+    }
+
+    private void addDiscounts(List<DiscountEvent> discounts, int reservationDate, OrderMenu orderMenu){
+        discounts.add(new DiscountEvent("크리스마스 디데이 할인: -", discountChristmas(reservationDate)));
+        discounts.add(new DiscountEvent("평일 할인: -", discountWeekday(reservationDate, orderMenu.getOrder())));
+        discounts.add(new DiscountEvent("주말 할인: -", discountWeekend(reservationDate, orderMenu.getOrder())));
+        discounts.add(new DiscountEvent("특별 할인: -", discountSpecial(reservationDate)));
+        discounts.add(new DiscountEvent("증정 이벤트: -", giftEvent()));
     }
 
     public int calculateTotalDiscount(int reservationDate, OrderMenu orderMenu){
@@ -93,14 +96,21 @@ public class Event {
 
     private int discountWeekday(int reservationDate, List<OrderItem> orderItems) {
         if (isWeekday(reservationDate)) {
-            int dessertCount = orderItems.stream()
-                    .filter(orderItem -> Menu.contains(orderItem.menuName())
-                            && Objects.requireNonNull(Menu.fromMenuName(orderItem.menuName())).getCategory() == DESSERT_CATEGORY)
-                    .mapToInt(OrderItem::quantity)
-                    .sum();
-            return DISCOUNT_AMOUNT * dessertCount;
+            return calculateDessertDiscount(orderItems);
         }
         return ZERO;
+    }
+
+    private int calculateDessertDiscount(List<OrderItem> orderItems) {
+        return orderItems.stream()
+                .filter(this::isDessert)
+                .mapToInt(OrderItem::quantity)
+                .sum() * DISCOUNT_AMOUNT;
+    }
+
+    private boolean isDessert(OrderItem orderItem) {
+        return Menu.contains(orderItem.menuName())
+                && Objects.requireNonNull(Menu.fromMenuName(orderItem.menuName())).getCategory() == DESSERT_CATEGORY;
     }
 
     private boolean isWeekday(int reservationDate) {
@@ -109,14 +119,21 @@ public class Event {
 
     private int discountWeekend(int reservationDate, List<OrderItem> orderItems) {
         if (isWeekend(reservationDate)) {
-            int mainCount = orderItems.stream()
-                    .filter(orderItem -> Menu.contains(orderItem.menuName())
-                            && Objects.requireNonNull(Menu.fromMenuName(orderItem.menuName())).getCategory() == MAIN_CATEGORY)
-                    .mapToInt(OrderItem::quantity)
-                    .sum();
-            return DISCOUNT_AMOUNT * mainCount;
+            return calculateMainDiscount(orderItems);
         }
         return ZERO;
+    }
+
+    private int calculateMainDiscount(List<OrderItem> orderItems) {
+        return orderItems.stream()
+                .filter(this::isMain)
+                .mapToInt(OrderItem::quantity)
+                .sum() * DISCOUNT_AMOUNT;
+    }
+
+    private boolean isMain(OrderItem orderItem) {
+        return Menu.contains(orderItem.menuName())
+                && Objects.requireNonNull(Menu.fromMenuName(orderItem.menuName())).getCategory() == MAIN_CATEGORY;
     }
 
     private boolean isWeekend(int reservationDate){
