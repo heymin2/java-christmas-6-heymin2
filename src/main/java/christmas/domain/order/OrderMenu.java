@@ -4,6 +4,7 @@ import christmas.constant.ErrorMessage;
 import christmas.domain.Menu;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -65,6 +66,7 @@ public class OrderMenu {
     @Override
     public String toString() {
         return order.stream()
+                .sorted(Comparator.comparingInt(o -> Objects.requireNonNull(Menu.fromMenuName(o.menuName())).getCategory()))
                 .map(orderItem -> orderItem.menuName() + " " + orderItem.quantity() + "개")
                 .collect(Collectors.joining("\n"));
     }
