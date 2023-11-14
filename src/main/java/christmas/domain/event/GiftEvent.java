@@ -4,8 +4,6 @@ import christmas.constant.ChristmasConfig;
 import christmas.domain.order.OrderMenu;
 
 public class GiftEvent {
-    public static final String GIFT = "샴페인 1개";
-    public static final String NO_GIFT = "없음";
     private final OrderMenu orderMenu;
 
     public GiftEvent(OrderMenu orderMenu) {
@@ -14,9 +12,9 @@ public class GiftEvent {
 
     public String getGiftMenu() {
         if(isGiftPrice()){
-            return GIFT;
+            return ChristmasConfig.GIFT;
         }
-        return NO_GIFT;
+        return ChristmasConfig.NO_GIFT;
     }
 
     private boolean isGiftPrice(){

@@ -16,7 +16,10 @@ public class ChristmasConfig {
     public static final int THURSDAY = 0;
     public static final int FRIDAY = 1;
     public static final int SATURDAY= 2;
+
     public static final int GIFT_PRICE = 25000;
+    public static final String GIFT = "샴페인 1개";
+    public static final String NO_GIFT = "없음";
 
     public static final int ZERO = 0;
     public static final int minPrice = 10000;
