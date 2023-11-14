@@ -1,9 +1,9 @@
 package christmas.view;
 
-import christmas.constant.OutputConfig;
 import christmas.constant.ViewMessage;
 import christmas.domain.DiscountEvent;
 import christmas.domain.ReservationDate;
+import christmas.domain.event.Badge;
 import christmas.domain.event.EventCalculator;
 import christmas.domain.event.GiftEvent;
 import christmas.domain.order.OrderMenu;
@@ -11,6 +11,9 @@ import christmas.domain.order.OrderMenu;
 import java.util.List;
 
 public class OutputView {
+    private static final String NO = "없음";
+    private static final int NO_DISCOUNT = 0;
+
     public static void printStart(){
         System.out.println(ViewMessage.START_MESSAGE);
     }
@@ -39,7 +42,7 @@ public class OutputView {
         List<DiscountEvent> discounts = eventCalculator.totalDiscount();
 
         if (discounts.isEmpty()) {
-            System.out.println(OutputConfig.NO);
+            System.out.println(NO);
         }
 
         discounts.stream()
@@ -59,8 +62,8 @@ public class OutputView {
     }
 
     private static String getDiscountMessage(int totalDiscount) {
-        if (totalDiscount == OutputConfig.NO_DISCOUNT) {
-            return OutputConfig.NO;
+        if (totalDiscount == NO_DISCOUNT) {
+            return NO;
         }
         return String.format("-%,d원", totalDiscount);
     }
@@ -77,33 +80,7 @@ public class OutputView {
     }
 
     private static void printBadge(int totalDiscount) {
-        String badge = getBadge(totalDiscount);
+        String badge = Badge.getBadge(totalDiscount);
         System.out.println(badge);
     }
-
-    private static String getBadge(int totalDiscount) {
-        return getSantaBadge(totalDiscount);
-    }
-
-    private static String getSantaBadge(int totalDiscount) {
-        if (totalDiscount >= OutputConfig.SANTA_BADGE_DISCOUNT) {
-            return OutputConfig.SANTA_BADGE;
-        }
-        return getTreeBadge(totalDiscount);
-    }
-
-    private static String getTreeBadge(int totalDiscount) {
-        if (totalDiscount >= OutputConfig.TREE_BADGE_DISCOUNT) {
-            return OutputConfig.TREE_BADGE;
-        }
-        return getStarBadge(totalDiscount);
-    }
-
-    private static String getStarBadge(int totalDiscount) {
-        if (totalDiscount >= OutputConfig.STAR_BADGE_DISCOUNT) {
-            return OutputConfig.STAR_BADGE;
-        }
-        return OutputConfig.NO;
-    }
-
 }
