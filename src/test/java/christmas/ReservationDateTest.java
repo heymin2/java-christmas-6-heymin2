@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ReservationDateTest {
+public class ReservationDateTest {
     @DisplayName("날짜가 숫자가 아닐 경우 예외 처리")
     @ValueSource(strings = {"a", "1a", " "})
     @ParameterizedTest
