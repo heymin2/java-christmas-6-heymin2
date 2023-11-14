@@ -1,6 +1,6 @@
 package christmas.event;
 
-import christmas.domain.ReservationDate;
+import christmas.domain.date.ReservationDate;
 import christmas.domain.event.EventCalculator;
 import christmas.domain.order.OrderMenu;
 import org.junit.jupiter.api.DisplayName;

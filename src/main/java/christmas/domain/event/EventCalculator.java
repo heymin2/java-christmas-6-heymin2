@@ -1,9 +1,8 @@
 package christmas.domain.event;
 
 import christmas.constant.ChristmasConfig;
-import christmas.domain.DiscountEvent;
 import christmas.domain.order.OrderMenu;
-import christmas.domain.ReservationDate;
+import christmas.domain.date.ReservationDate;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package christmas.view;
 
 import christmas.constant.ViewMessage;
-import christmas.domain.DiscountEvent;
-import christmas.domain.ReservationDate;
+import christmas.domain.event.DiscountEvent;
+import christmas.domain.date.ReservationDate;
 import christmas.domain.event.Badge;
 import christmas.domain.event.EventCalculator;
 import christmas.domain.event.GiftEvent;

@@ -1,7 +1,7 @@
 package christmas.controller;
 
 import christmas.domain.event.EventCalculator;
-import christmas.domain.ReservationDate;
+import christmas.domain.date.ReservationDate;
 import christmas.domain.order.OrderMenu;
 import christmas.view.InputView;
 import christmas.view.OutputView;
