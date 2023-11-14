@@ -1,7 +1,8 @@
 package christmas.domain.event;
 
 import christmas.constant.ChristmasConfig;
-import christmas.domain.order.OrderMenu;
+import christmas.domain.order.OrderMenuCalculate;
+import christmas.domain.order.OrderMenuParser;
 import christmas.domain.date.ReservationDate;
 
 import java.util.ArrayList;
@@ -15,15 +16,15 @@ public class EventCalculator {
     private static final String GIFT_EVENT = "증정 이벤트: ";
     
     private final ReservationDate reservationDate;
-    private final OrderMenu orderMenu;
+    private final OrderMenuParser orderMenu;
 
-    public EventCalculator(ReservationDate reservationDate, OrderMenu orderMenu) {
+    public EventCalculator(ReservationDate reservationDate, OrderMenuParser orderMenu) {
         this.reservationDate = reservationDate;
         this.orderMenu = orderMenu;
     }
 
     public boolean applyEvent(){
-        return orderMenu.calculateTotalPrice() > ChristmasConfig.minPrice;
+        return new OrderMenuCalculate(orderMenu).calculateTotalPrice() > ChristmasConfig.minPrice;
     }
 
     public List<DiscountEvent> totalDiscount(){
@@ -58,6 +59,6 @@ public class EventCalculator {
     }
 
     public int calculateExpectedDiscount(){
-        return orderMenu.calculateTotalPrice() - calculateDiscountPrice();
+        return new OrderMenuCalculate(orderMenu).calculateTotalPrice() - calculateDiscountPrice();
     }
 }

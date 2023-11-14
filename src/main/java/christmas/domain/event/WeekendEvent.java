@@ -2,18 +2,18 @@ package christmas.domain.event;
 
 import christmas.constant.ChristmasConfig;
 import christmas.domain.order.Menu;
-import christmas.domain.order.OrderItem;
+import christmas.domain.order.OrderMenu;
 
 import java.util.List;
 import java.util.Objects;
 
 public class WeekendEvent {
     private final int reservationDate;
-    private final List<OrderItem> orderItems;
+    private final List<OrderMenu> orderMenus;
 
-    public WeekendEvent(int reservationDate, List<OrderItem> orderItems) {
+    public WeekendEvent(int reservationDate, List<OrderMenu> orderMenus) {
         this.reservationDate = reservationDate;
-        this.orderItems = orderItems;
+        this.orderMenus = orderMenus;
     }
 
     public int calculateDiscount() {
@@ -24,15 +24,15 @@ public class WeekendEvent {
     }
 
     private int calculateMainDiscount() {
-        return orderItems.stream()
+        return orderMenus.stream()
                 .filter(this::isMain)
-                .mapToInt(OrderItem::quantity)
+                .mapToInt(OrderMenu::quantity)
                 .sum() * ChristmasConfig.DISCOUNT_AMOUNT;
     }
 
-    private boolean isMain(OrderItem orderItem) {
-        return Menu.contains(orderItem.menuName())
-                && Objects.requireNonNull(Menu.fromMenuName(orderItem.menuName())).getCategory() == ChristmasConfig.MAIN_CATEGORY;
+    private boolean isMain(OrderMenu orderMenu) {
+        return Menu.contains(orderMenu.menuName())
+                && Objects.requireNonNull(Menu.fromMenuName(orderMenu.menuName())).getCategory() == ChristmasConfig.MAIN_CATEGORY;
     }
 
     private boolean isWeekend() {

@@ -2,7 +2,7 @@ package christmas.controller;
 
 import christmas.domain.event.EventCalculator;
 import christmas.domain.date.ReservationDate;
-import christmas.domain.order.OrderMenu;
+import christmas.domain.order.OrderMenuParser;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
@@ -10,7 +10,7 @@ public class ChristmasController {
     public void run(){
         OutputView.printStart();
         ReservationDate reservationDate = reservationDate();
-        OrderMenu orderMenu = orderMenu();
+        OrderMenuParser orderMenu = orderMenu();
         OutputView.printDate(reservationDate);
         OutputView.printOrderMenu(orderMenu);
         OutputView.printTotalPrice(orderMenu);
@@ -32,10 +32,10 @@ public class ChristmasController {
         }
     }
 
-    private OrderMenu orderMenu(){
+    private OrderMenuParser orderMenu(){
         while (true) {
             try {
-                return new OrderMenu(InputView.readMenu());
+                return new OrderMenuParser(InputView.readMenu());
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }

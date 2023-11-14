@@ -6,7 +6,8 @@ import christmas.domain.date.ReservationDate;
 import christmas.domain.event.Badge;
 import christmas.domain.event.EventCalculator;
 import christmas.domain.event.GiftEvent;
-import christmas.domain.order.OrderMenu;
+import christmas.domain.order.OrderMenuCalculate;
+import christmas.domain.order.OrderMenuParser;
 
 import java.util.List;
 
@@ -22,16 +23,16 @@ public class OutputView {
         System.out.printf(String.valueOf(ViewMessage.PREVIEW), reservationDate.getDate());
     }
 
-    public static void printOrderMenu(OrderMenu orderMenu){
+    public static void printOrderMenu(OrderMenuParser orderMenu){
         System.out.println(String.join("\n", ViewMessage.ORDER_MENU.getMessage(), orderMenu.toString()));
     }
 
-    public static void printTotalPrice(OrderMenu orderMenu){
+    public static void printTotalPrice(OrderMenuParser orderMenu){
         System.out.println(ViewMessage.TOTAL_COST_BEFORE);
-        System.out.printf("%,d원%n", orderMenu.calculateTotalPrice());
+        System.out.printf("%,d원%n", new OrderMenuCalculate(orderMenu).calculateTotalPrice());
     }
 
-    public static void printGiftMenu(OrderMenu orderMenu){
+    public static void printGiftMenu(OrderMenuParser orderMenu){
         System.out.println(ViewMessage.GIFT_MENU);
         GiftEvent giftEvent = new GiftEvent(orderMenu);
         System.out.println(giftEvent.getGiftMenu());

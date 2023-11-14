@@ -1,7 +1,7 @@
 package christmas.event;
 
 import christmas.domain.event.GiftEvent;
-import christmas.domain.order.OrderMenu;
+import christmas.domain.order.OrderMenuParser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -13,7 +13,7 @@ public class GiftEventTest {
     @ParameterizedTest
     @ValueSource(strings = {"티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1", "티본스테이크-1,바비큐립-1,초코케이크-1"})
     public void giftProvided(String orderInput) {
-        OrderMenu orderMenu = new OrderMenu(orderInput);
+        OrderMenuParser orderMenu = new OrderMenuParser(orderInput);
         GiftEvent giftEvent = new GiftEvent(orderMenu);
 
         assertThat(giftEvent.getGiftMenu()).isEqualTo("샴페인 1개");
@@ -24,7 +24,7 @@ public class GiftEventTest {
     @ParameterizedTest
     @ValueSource(strings = {"티본스테이크-1", "타파스-1,제로콜라-1"})
     public void noGiftProvided(String orderInput) {
-        OrderMenu orderMenu = new OrderMenu(orderInput);
+        OrderMenuParser orderMenu = new OrderMenuParser(orderInput);
         GiftEvent giftEvent = new GiftEvent(orderMenu);
 
         assertThat(giftEvent.getGiftMenu()).isEqualTo("없음");

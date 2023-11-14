@@ -1,12 +1,13 @@
 package christmas.domain.event;
 
 import christmas.constant.ChristmasConfig;
-import christmas.domain.order.OrderMenu;
+import christmas.domain.order.OrderMenuCalculate;
+import christmas.domain.order.OrderMenuParser;
 
 public class GiftEvent {
-    private final OrderMenu orderMenu;
+    private final OrderMenuParser orderMenu;
 
-    public GiftEvent(OrderMenu orderMenu) {
+    public GiftEvent(OrderMenuParser orderMenu) {
         this.orderMenu = orderMenu;
     }
 
@@ -18,7 +19,7 @@ public class GiftEvent {
     }
 
     private boolean isGiftPrice(){
-        return orderMenu.calculateTotalPrice() >= ChristmasConfig.TOTAL_MONEY;
+        return new OrderMenuCalculate(orderMenu).calculateTotalPrice() >= ChristmasConfig.TOTAL_MONEY;
     }
 
     public int calculateGiftPrice() {

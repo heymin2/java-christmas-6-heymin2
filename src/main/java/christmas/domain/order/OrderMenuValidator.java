@@ -9,9 +9,9 @@ public class OrderMenuValidator {
     private static final int MAX_MENU = 20;
     private static final int DRINK_CATEGORY = 4;
 
-    public static void validateOrder(List<OrderItem> order) {
+    public static void validateOrder(List<OrderMenu> order) {
         int totalQuantity = order.stream()
-                .mapToInt(OrderItem::quantity)
+                .mapToInt(OrderMenu::quantity)
                 .sum();
         validateTotalQuantity(totalQuantity);
         validateAllMenusExist(order);
@@ -26,9 +26,9 @@ public class OrderMenuValidator {
         }
     }
 
-    private static void validateAllMenusExist(List<OrderItem> order){
-        for (OrderItem orderItem : order) {
-            validateMenuExists(orderItem.menuName());
+    private static void validateAllMenusExist(List<OrderMenu> order){
+        for (OrderMenu orderMenu : order) {
+            validateMenuExists(orderMenu.menuName());
         }
     }
 
@@ -38,7 +38,7 @@ public class OrderMenuValidator {
         }
     }
 
-    private static void validateOnlyDrink(List<OrderItem> order){
+    private static void validateOnlyDrink(List<OrderMenu> order){
         boolean isOnlyLastCategory = order.stream()
                 .map(orderItem -> Menu.fromMenuName(orderItem.menuName())).filter(Objects::nonNull)
                 .allMatch(m -> m.getCategory() == DRINK_CATEGORY);
@@ -47,9 +47,9 @@ public class OrderMenuValidator {
         }
     }
 
-    private static void validateDuplicateMenu(List<OrderItem> order) {
+    private static void validateDuplicateMenu(List<OrderMenu> order) {
         long distinctCount = order.stream()
-                .map(OrderItem::menuName)
+                .map(OrderMenu::menuName)
                 .distinct()
                 .count();
 
@@ -58,7 +58,7 @@ public class OrderMenuValidator {
         }
     }
 
-    private static void validateQuantity(List<OrderItem> order) {
+    private static void validateQuantity(List<OrderMenu> order) {
         boolean hasInvalidQuantity = order.stream()
                 .anyMatch(orderItem -> orderItem.quantity() < 1);
 
