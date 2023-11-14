@@ -1,4 +1,4 @@
-package christmas;
+package christmas.date;
 
 
 import christmas.domain.date.ReservationDate;
