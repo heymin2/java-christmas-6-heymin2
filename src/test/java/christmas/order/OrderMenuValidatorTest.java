@@ -1,4 +1,4 @@
-package christmas;
+package christmas.order;
 
 import christmas.domain.order.OrderMenu;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class OrderMenuTest {
+public class OrderMenuValidatorTest {
     @DisplayName("메뉴 개수 1개 이하 입력시 예외 처리")
     @ValueSource(strings = {"해산물파스타-0", " "})
     @ParameterizedTest
